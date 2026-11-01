@@ -53,7 +53,19 @@ module ddr3_dimm (
     sda
 );
 
-`include "ddr3_parameters.vh"
+`ifdef den1024Mb
+  `include "1024Mb_ddr3_parameters.vh"
+`elsif den2048Mb
+  `include "2048Mb_ddr3_parameters.vh"
+`elsif den4096Mb
+  `include "4096Mb_ddr3_parameters.vh"
+`elsif den8192Mb
+  `include "8192Mb_ddr3_parameters.vh"
+`else
+  // NOTE: Intentionally cause a compile fail here to force the users
+  //       to select the correct component density before continuing
+  $error("You must specify component density with +define+den____Mb.");
+`endif
 
     input                  reset_n;
     input            [1:0] ck     ;
