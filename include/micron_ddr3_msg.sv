@@ -37,7 +37,7 @@
     ``__HIERARCHY__``.error_mbx   = error_mbx;                                   \
 
 
-  `define DDR3_MSG_TYPE_WRITES(__TYPE__)                                         \
+  `define DDR3_MSG_WRITES(__TYPE__)                                              \
     task automatic ``__TYPE__``_msg_write(input string txt);                     \
         msg_t msg;                                                               \
         msg.msg_time = $realtime;                                                \
