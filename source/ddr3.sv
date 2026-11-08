@@ -623,7 +623,7 @@ module ddr3 (
     input [ADDR_BITS-1:0] mode_reg2;
     input [ADDR_BITS-1:0] mode_reg3;
     begin
-      if (DEBUG) info_msg_write($sformatf("%m: Performing Initialization Sequence"));
+      info_msg_write($sformatf("%m: Performing Initialization Sequence"));
       cmd_task(prev_cke, 1, NOP, 'bx, 'bx);
       cmd_task(prev_cke, 1, ZQ, 'bx, 'h400);  //ZQCL
       cmd_task(prev_cke, 1, LOAD_MODE, 3, mode_reg3);
@@ -1062,7 +1062,7 @@ if (|active_bank) begin
               error_msg_write($sformatf("%m: %s Failure.  All banks must be Precharged.", cmd_string[cmd]));
               if (STOP_ON_ERROR) $stop(0);
             end else begin
-              if (DEBUG) info_msg_write($sformatf("%m: %s %d", cmd_string[cmd], bank));
+              info_msg_write($sformatf("%m: %s %d", cmd_string[cmd], bank));
               if (bank >> 2) begin
                 error_msg_write($sformatf("%m: %s %d Illegal value.  Reserved bank bits must be programmed to zero", cmd_string[cmd], bank));
               end
@@ -1410,7 +1410,7 @@ if (|active_bank) begin
               error_msg_write($sformatf("%m: %s Failure.  All banks must be Precharged.", cmd_string[cmd]));
               if (STOP_ON_ERROR) $stop(0);
             end else begin
-              if (DEBUG) info_msg_write($sformatf("%m: %s", cmd_string[cmd]));
+              info_msg_write($sformatf("%m: %s", cmd_string[cmd]));
               er_trfc_max = 0;
               ref_cntr = ref_cntr + 1;
               tm_refresh <= $time;
@@ -1419,7 +1419,7 @@ if (|active_bank) begin
           end
           PRECHARGE: begin
             if (addr[AP]) begin
-              if (DEBUG) info_msg_write($sformatf("%m: %s All", cmd_string[cmd]));
+              info_msg_write($sformatf("%m: %s All", cmd_string[cmd]));
             end
             // PRECHARGE command will be treated as a NOP if there is no open row in that bank (idle state), 
             // or if the previously open row is already in the process of precharging
@@ -1652,7 +1652,7 @@ if (|active_bank) begin
                 error_msg_write($sformatf("%m: tCKSRX violation during Power Down Exit"));
               if ($time - tm_cke_cmd > TPD_MAX)
                 error_msg_write($sformatf("%m: tPD maximum violation during Power Down Exit"));
-              if (DEBUG) info_msg_write($sformatf("%m: Power Down Exit"));
+              info_msg_write($sformatf("%m: Power Down Exit"));
               in_power_down = 0;
               if ((active_bank == 0) && low_power) begin  // precharge power down with dll off
                 if (ck_cntr - ck_odt < write_latency - 1)
@@ -1670,7 +1670,7 @@ if (|active_bank) begin
                 error_msg_write($sformatf("%m: tCKESR violation during Self Refresh Exit"));
               if ($time - tm_cke < TISXR)
                 error_msg_write($sformatf("%m: tISXR violation during Self Refresh Exit"));
-              if (DEBUG) info_msg_write($sformatf("%m: Self Refresh Exit"));
+              info_msg_write($sformatf("%m: Self Refresh Exit"));
               in_self_refresh = 0;
               ck_dll_reset <= ck_cntr;
               ck_self_refresh <= ck_cntr;
@@ -1730,7 +1730,7 @@ if (|active_bank) begin
               error_msg_write($sformatf("%m: Self Refresh Failure.  Initialization sequence is not complete."));
               if (STOP_ON_ERROR) $stop(0);
             end else begin
-              if (DEBUG) info_msg_write($sformatf("%m: Self Refresh Enter"));
+              info_msg_write($sformatf("%m: Self Refresh Enter"));
               if (feature_pasr)
                 // Partial Array Self Refresh
                 case (pasr)
@@ -1792,7 +1792,7 @@ if (|active_bank) begin
               error_msg_write($sformatf("%m: Power Down Failure.  Initialization sequence is not complete."));
               if (STOP_ON_ERROR) $stop(0);
             end else begin
-              if (DEBUG) begin
+              begin
                 if (|active_bank) begin
                   info_msg_write($sformatf("%m: Active Power Down Enter"));
                 end else begin
@@ -2188,7 +2188,7 @@ if (|active_bank) begin
             if (write_precharge_bank[i]) begin
               if ($time - tm_bank_activate[i] >= TRAS_MIN) begin
                 if (ck_cntr - ck_bank_write[i] >= write_latency + burst_length/2 + write_recovery) begin
-                  if (DEBUG) info_msg_write($sformatf("%m: Auto Precharge bank %d", i));
+                  info_msg_write($sformatf("%m: Auto Precharge bank %d", i));
                   write_precharge_bank[i] = 0;
                   active_bank[i] = 0;
                   auto_precharge_bank[i] = 0;
@@ -2216,7 +2216,7 @@ if (|active_bank) begin
                   tm_precharge <= #(tm_bank_read_end[i] + TRTP - $time) tm_bank_read_end[i] + TRTP;
                   ck_precharge = ck_cntr;
                 end else begin
-                  if (DEBUG) info_msg_write($sformatf("%m: Auto Precharge bank %d", i));
+                  info_msg_write($sformatf("%m: Auto Precharge bank %d", i));
                   active_bank[i] = 0;
                   auto_precharge_bank[i] = 0;
                   tm_bank_precharge[i] = $time;
@@ -2835,7 +2835,7 @@ if (|active_bank) begin
           error_msg_write($sformatf("%m: tWLMRD violation on DQS bit %d positive edge.", i));
         if (($time - tm_ck_pos < TWLS) || ($time - tm_ck_neg < TWLS))
           warning_msg_write($sformatf("%m: tWLS violation on DQS bit %d positive edge.  Indeterminate CK capture is possible.", i));
-        if (DEBUG) $display("%m: Write Leveling @ DQS ck = %b", diff_ck);
+        $display("%m: Write Leveling @ DQS ck = %b", diff_ck);
         dq_out_en_dly[i*`DQ_PER_DQS] <= #(TWLO) 1'b1;
         dq_out_dly[i*`DQ_PER_DQS] <= #(TWLO) diff_ck;
 `ifdef WL_ALLDQ
