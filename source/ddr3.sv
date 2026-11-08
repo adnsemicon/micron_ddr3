@@ -91,8 +91,10 @@
 
 // DO NOT CHANGE THE TIMESCALE
 // MAKE SURE YOUR SIMULATOR USES "PS" RESOLUTION
-`timescale 1ps / 1ps
 
+`include "micron_ddr3_msg.svh"
+
+`timescale 1ps / 1ps
 
 module ddr3 (
     rst_n,
@@ -127,18 +129,22 @@ module ddr3 (
   $error("You must specify component density with +define+den____Mb.");
 `endif
 
-  `include "micron_ddr3_msg.sv"
-  `DDR3_MSG_MBX_DECLARE
-  `DDR3_MSG_MBX_INI_NEW
-  `DDR3_MSG_ID_COUNTERS
-  `DDR3_MSG_TYPE_WRITES
-
   parameter check_strict_mrbits = 1;
   parameter check_strict_timing = 1;
   parameter feature_pasr = 1;
   parameter feature_truebl4 = 0;
   parameter feature_odt_hi = 0;
   parameter PERTCKAVG = TDLLK;
+
+  import micron_ddr3_msg_pkg::msg_t;
+
+  `DDR3_MSG_MBX_DECLARE
+
+  `DDR3_MSG_MBX_INI_NEW
+
+  `DDR3_MSG_ID_COUNTERS
+
+  `DDR3_MSG_TYPE_WRITES
 
   // text macros
   `define DQ_PER_DQS DQ_BITS/DQS_BITS

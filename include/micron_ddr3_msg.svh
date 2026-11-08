@@ -1,11 +1,18 @@
-`ifndef __GUARD_MICRON_DDR3_MSG_SVH__
-`define __GUARD_MICRON_DDR3_MSG_SVH__
+`ifndef __GUARD_MICRON_DDR3_MSG_PACKAGE_SVH__
+`define __GUARD_MICRON_DDR3_MSG_PACKAGE_SVH__
 
+package micron_ddr3_msg_pkg;
   typedef struct {
     int        msg_id;
     realtime   msg_time;
     string     msg_body;
   } msg_t;
+endpackage
+
+`endif
+
+`ifndef __GUARD_MICRON_DDR3_MSG_MACROS_SVH__
+`define __GUARD_MICRON_DDR3_MSG_MACROS_SVH__
 
   `define DDR3_MSG_ID_COUNTERS                                                   \
     int info_msg_id    = 0;                                                      \
@@ -55,4 +62,6 @@
     `DDR3_MSG_WRITES(error)                                                      \
 
 
+
 `endif
+
