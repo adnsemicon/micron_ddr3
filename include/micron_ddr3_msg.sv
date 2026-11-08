@@ -50,9 +50,9 @@
 
 
   `define DDR3_MSG_TYPE_WRITES                                                   \
-    `DDR3_MSG_TYPE_WRITES(info)                                                  \
-    `DDR3_MSG_TYPE_WRITES(warning)                                               \
-    `DDR3_MSG_TYPE_WRITES(error)                                                 \
+    `DDR3_MSG_WRITES(info)                                                       \
+    `DDR3_MSG_WRITES(warning)                                                    \
+    `DDR3_MSG_WRITES(error)                                                      \
 
 
 `endif
