@@ -127,7 +127,7 @@ module ddr3 (
   $error("You must specify component density with +define+den____Mb.");
 `endif
 
-  `include "micron_ddr3_msg.svh"
+  `include "micron_ddr3_msg.sv"
   `DDR3_MSG_MBX_DECLARE
   `DDR3_MSG_MBX_INI_NEW
   `DDR3_MSG_ID_COUNTERS
